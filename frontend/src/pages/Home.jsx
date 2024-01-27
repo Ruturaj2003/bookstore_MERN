@@ -9,18 +9,31 @@ import { BsInfoCircle } from 'react-icons/bs';
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [laoding, setLoading] = useState(false);
+  const [dota, setDota] = useState(1);
   useEffect(() => {
     setLoading(true);
     axios
       .get('http://localhost:5555/books')
       .then((resp) => {
+        if (!resp.data.data) {
+          return;
+        }
         setBooks(resp.data.data);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [dota]);
+
+  const handleDelete = (id) => {
+    axios
+      .delete('http://localhost:5555/books/' + id)
+
+      .catch((err) => console.log(err));
+
+    setDota(dota + 1);
+  };
 
   return (
     <div className="p-4">
@@ -87,9 +100,9 @@ const Home = () => {
                       <Link to={'/books/edit/' + book._id}>
                         <AiOutlineEdit className="text-2xl text-yellow-500"></AiOutlineEdit>
                       </Link>
-                      <Link to={'/books/delete/' + book._id}>
+                      <button onClick={() => handleDelete(book._id)}>
                         <MdOutlineDelete className="text-2xl text-red-500"></MdOutlineDelete>
-                      </Link>
+                      </button>
                     </div>
                   </td>
                 </tr>
