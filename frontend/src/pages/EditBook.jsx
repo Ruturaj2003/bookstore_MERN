@@ -13,6 +13,17 @@ const EditBook = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setLoading(true);
+    axios.get('http://localhost:5555/books/' + id).then((resp) => {
+      const { data } = resp;
+      setAuthor(data.author);
+      setTitle(data.title);
+      setPublishYear(data.publishYear);
+      setLoading(false);
+    });
+  }, []);
+
   const handleSaveBook = (e) => {
     e.preventDefault();
     const data = {
@@ -28,6 +39,7 @@ const EditBook = () => {
   };
   return (
     <>
+      <BackButton></BackButton>
       {loading ? (
         <Spinner></Spinner>
       ) : (

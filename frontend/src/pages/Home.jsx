@@ -24,16 +24,7 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [dota]);
-
-  const handleDelete = (id) => {
-    axios
-      .delete('http://localhost:5555/books/' + id)
-
-      .catch((err) => console.log(err));
-
-    setDota(dota + 1);
-  };
+  }, []);
 
   return (
     <div className="p-4">
@@ -100,9 +91,9 @@ const Home = () => {
                       <Link to={'/books/edit/' + book._id}>
                         <AiOutlineEdit className="text-2xl text-yellow-500"></AiOutlineEdit>
                       </Link>
-                      <button onClick={() => handleDelete(book._id)}>
+                      <Link to={'/books/delete/' + book._id}>
                         <MdOutlineDelete className="text-2xl text-red-500"></MdOutlineDelete>
-                      </button>
+                      </Link>
                     </div>
                   </td>
                 </tr>
