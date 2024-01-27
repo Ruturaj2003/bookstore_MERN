@@ -27,7 +27,7 @@ app.post('/books', async (req, resp) => {
       publishYear: body.publishYear,
     };
     const book = await Book.create(newBook);
-    return resp.status(201).send(book);
+    resp.status(201).send(book);
   } catch (error) {
     console.log(error.message);
     resp.status(500).send({ message: error.message });
@@ -63,9 +63,26 @@ app.put('/books/:id', async (request, response) => {
   const { body } = request;
   try {
     const result = await Book.findByIdAndUpdate(id, body);
+    if (!result) {
+      response.status(404).send({
+        message: 'Book not found',
+      });
+      return;
+    }
     response.status(200).send('Updated Sucessfuly');
   } catch (error) {
     console.log(error);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+app.delete('/books/:id', async (request, response) => {
+  const { id } = request.params;
+  try {
+    const result = await Book.findByIdAndDelete(id);
+    response.status(200).send('Book Deleted Sucessfully');
+  } catch (error) {
+    console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
