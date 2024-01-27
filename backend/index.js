@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request, response } from 'express';
 import { PORT } from './config.js';
 import { mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
@@ -31,6 +31,42 @@ app.post('/books', async (req, resp) => {
   } catch (error) {
     console.log(error.message);
     resp.status(500).send({ message: error.message });
+  }
+});
+
+app.get('/books', async (req, resp) => {
+  try {
+    const books = await Book.find({});
+    return resp.status(200).json({
+      count: books.length,
+      data: books,
+    });
+  } catch (error) {
+    console.log(error.message);
+    resp.status(500).send({ message: error.message });
+  }
+});
+
+app.get('/books/:id', async (req, resp) => {
+  try {
+    const { id } = req.params;
+    const book = await Book.findById(id);
+    return resp.status(200).json(book);
+  } catch (error) {
+    console.log(error.message);
+    resp.status(500).send({ message: error.message });
+  }
+});
+
+app.put('/books/:id', async (request, response) => {
+  const { id } = request.params;
+  const { body } = request;
+  try {
+    const result = await Book.findByIdAndUpdate(id, body);
+    response.status(200).send('Updated Sucessfuly');
+  } catch (error) {
+    console.log(error);
+    response.status(500).send({ message: error.message });
   }
 });
 
