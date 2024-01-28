@@ -9,7 +9,6 @@ import { BsInfoCircle } from 'react-icons/bs';
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [laoding, setLoading] = useState(false);
-  const [dota, setDota] = useState(1);
   useEffect(() => {
     setLoading(true);
     axios

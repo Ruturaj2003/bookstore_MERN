@@ -70,7 +70,6 @@ const EditBook = () => {
               required
               onChange={(e) => setPublishYear(e.target.value)}
             ></input>
-
             <button
               type="submit"
               className="border-2 border-green-800 rounded-xl px-4"
